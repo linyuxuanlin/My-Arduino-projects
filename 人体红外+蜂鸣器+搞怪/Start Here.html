@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+    @font-face {
+        font-family: roboto;
+        src: url(https://fonts.googleapis.com/css?family=Roboto);
+}
+
+    body { 
+        font-family:roboto;
+        font-weight:300;
+        background-color: #46ADFE;
+        color:white;
+        margin-top: 52px;
+        margin-bottom: 16px;
+        margin-left:0px;
+        margin-right:0px;
+    }
+    
+
+    .wrapper {
+        background-color:#46ADFE;
+        box-shadow:none;
+        width:960px;
+        margin-left:auto;
+        margin-right:auto;
+    }
+    
+    a {
+        color: #FFD34D;
+        text-decoration: underline;
+        font-weight:400;
+        cursor: auto;
+    }
+    
+    h1 {
+        font-weight:300;
+        display:inline;
+    }
+    
+    h2 {
+        font-weight:400;
+        text-decoration:underline;
+        margin-top:0px;
+    
+    }
+    h3 {
+        font-weight: 400;
+        font-size: 24px;
+        margin-bottom:8px;
+    }
+    
+    h4 {
+        font-weight:300;
+        text-decoration:underline;
+        text-decoration:underline;
+        }
+    
+    /*li {
+        list-style-type:none;
+    }*/
+    
+    div {
+        background-color: #1767A5;
+        padding: 16px;
+        margin: 32px;
+        box-shadow:0 3px 6px rgba(0,0,0,.16),0 3px 6px rgba(0,0,0,.23);
+        clear:both;
+        border-radius:5px;
+        }
+        
+        
+    table {
+        width:100%;
+        }
+        
+    tr.border_bottom td {
+        border-bottom: 1px solid white;
+        }
+             
+    tr td:last-child {
+    float:right;
+    }
+    
+    tr td:last-child:before{
+     content:"x";
+     
+     }
+     
+    tr a {
+        text-decoration:none;
+        }
+     
+    img {
+        max-width:100%; 
+        max-height:100%;
+        margin:auto;
+        display:block;
+    }
+    
+    .fritzing {
+
+        }
+     
+    .header {
+        height:100px;
+        line-height:100px;
+        margin-left:0px;
+        margin-right:0px;
+        font-weight:300;
+        text-decoration:none;
+        color:#343434;
+        background-color: #FFD34D;
+        text-align:center;
+        border-bottom: 1px solid #FF7239;
+        box-shadow:none;
+        }
+        
+    .container {
+        padding:0px;
+        background-color:#46ADFE;
+        box-shadow:none;
+        padding-top:0px;
+        padding-bottom:0px;
+        display:flex;
+    }
+    
+    .container #bom {
+        margin-left:0px;
+        margin-right:16px;
+        float: left;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        width:42%;
+        height:auto;
+        clear:none;
+        flex:1;
+
+    }
+    
+    .container #notes {
+        margin-left:16px;
+        margin-right:0px;
+        float:right;
+        width:42%;
+        margin-top:0px;
+        margin-bottom:0px;
+        height:auto;
+        clear:none;
+        background-color:#FFCE39;
+        color:#343434;
+        font-weight:400;
+        flex:1;
+    }
+    
+    .container #notes a {
+        color: #343434;
+        }
+    
+    .license {
+
+    }
+    
+    .badge1 {
+        position:relative;
+    }
+    .badge1[data-badge]:after {
+       content:attr(data-badge);
+       position:absolute;
+       top:-32px;
+       right:0px;
+       font-size:16px;
+       font-weight:500;
+       background:#FFD34D;
+       color:#343434;
+       width:32px;
+       height:32px;
+       text-align:center;
+       line-height:32px;
+       border-radius:50%;
+       box-shadow:0 0 1px #333;
+    }
+    
+    .social{
+        background-color:transparent;
+        box-shadow:none;
+        float:right;
+        
+        }
+    
+    .social a{
+        color:#1767A5;
+        text-decoration:none;
+        }
+        
+    .social a:hover{
+        transition:color 0.1s ease;
+        color:#1767A5;
+        text-decoration:none;
+        color:white; 
+        }
+        
+    .list-inline{
+        margin-right:auto;
+        margin-left:auto;
+        display:inline;
+        padding-left:0px;
+
+        }
+        
+    .list-inline li{
+        margin-left:30px;
+        margin-right:30px;
+        list-style:none;
+        display:inline;
+        font-size:30px;
+        }
+
+</style>
+<head>
+<link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="header">
+        <h1>What to do with your Circuito?</h1>
+    </div>
+<div class="wrapper">
+    <div class="how to">
+    <span class="badge1" data-badge="1"></span>
+        <h3>Welcome maker!</h3>
+        <p>This is your project circuito - automatically generated schematic and code for the parts you selected.<br>We are still in Alpha stages of our technology. We hope you enjoy the service and give us any feedback you may have to make sure we keep improving!</p>
+        <h4>You'll find two folders in this reply:</h4>
+        <ul>
+            <li><a target="_blank" href="Firmware">Firmware</a> - includes all the code you need to operate the i/o components using the micro-controller. firmware.ino is the main logic file, but to operate the code you'll need all the files.</li>
+            <li><a target="_blank" href="Diagram">Diagram</a> - where you'll find the schematic diagram as a Fritzing file. (more info on Fritzing in step 3).</li>
+        </ul>
+        <p>Let's see what else we have here:</p>
+    </div>
+
+    <div class="container">
+        <div id="bom">
+        <span class="badge1" data-badge="2"></span>
+            <h3>First, make sure you have all the parts:</h3>
+            <p>Note that the list contains helper parts like: resistors, capacitors, transistors, etc.. that are essential to the circuit.</p>
+            <table>
+                
+                <tr class="border_bottom">
+                    <td><a target="_blank" href="https://www.sparkfun.com/products/8980">1K Ohm Resistor</a></td>
+                    <td>1</td>
+                </tr>
+                
+                <tr class="border_bottom">
+                    <td><a target="_blank" href="https://www.sparkfun.com/products/13285">PIR Motion Sensor JST</a></td>
+                    <td>1</td>
+                </tr>
+                
+                <tr class="border_bottom">
+                    <td><a target="_blank" href="https://www.sparkfun.com/products/9442">Wall Adapter Power Supply - 12VDC 600mA</a></td>
+                    <td>1</td>
+                </tr>
+                
+                <tr class="border_bottom">
+                    <td><a target="_blank" href="https://www.sparkfun.com/products/8374">10K Ohm Resistor</a></td>
+                    <td>1</td>
+                </tr>
+                
+                <tr class="border_bottom">
+                    <td><a target="_blank" href="https://www.sparkfun.com/products/7950">Piezo Speaker</a></td>
+                    <td>1</td>
+                </tr>
+                
+                <tr class="border_bottom">
+                    <td><a target="_blank" href="https://www.sparkfun.com/products/11021">Arduino Uno</a></td>
+                    <td>1</td>
+                </tr>
+                
+                <tr class="border_bottom">
+                    <td><a target="_blank" href="https://www.sparkfun.com/products/13689">Transistor - NPN BC337</a></td>
+                    <td>1</td>
+                </tr>
+                
+                </tr>
+            </table>
+        </div>
+        <div id="notes">
+            <h3>Notes before you start</h3>
+            <ul>
+                <li>If you chose a battery or USB, we may have replaced it with a 12V power source, as some parts can't work otherwise.</li>
+                <li>Some parts may require header soldering in order to connect to other parts.</li>
+                <li>If you're using a component different than the one in Circuito.io, the code and schematic may not work exactly as is, and you'll need to make adjustments.</li>                
+                <li>Enjoy your making process :)</li>
+            </ul>
+    </div>
+
+    </div>
+
+    <div class="fritzing">
+        <span class="badge1" data-badge="3"></span>
+        <h3>Now, assemble the circuit using the Fritzing file:</h3>
+        <p>To use Fritzing files, download the software <a target="_blank" href="http://www.fritzing.org">here</a>.</p>
+        <p>After download, open the .fzz file located in the <a target="_blank" href="Diagram">Diagram</a> folder</p>
+         <h4>A few things to pay attention to when using the diagram:</h4>
+        <ul>
+            <li>Our automatically generated schematic drawing is still a work in progress. You many need to move the parts around in the fritzing file to get a better view.</li>
+            <li>Position the parts like in the diagram</li>
+            <li>Make sure you connect the +/- correctly</li>
+            <li>If you need more information on how to use a breadboard - here is a great <a target="_blank" href="https://learn.sparkfun.com/tutorials/how-to-use-a-breadboard">guide</a></li>
+        </ul>
+    </div>
+    <div class="code_folder">
+        <span class="badge1" data-badge="4"></span>
+        <h3>Let's code!</h3>
+        <p>To upload the code to your controller, download <a target="_blank" href="https://www.arduino.cc/en/Main/Software">Arduino IDE version 1.6.7 or higher</a>. You can use the <a target="_blank" href="https://www.arduino.cc/en/Guide/HomePage">Getting Started Guide</a> to set up your work environment.</p>
+        <ol>
+            <li>Open the <a href= "firmware">code folder</a> and <b>double click</b> (don't drag and drop) <i>firmware.ino</i> - all the files in the folder should open in the Arduino development environment. (They're all libraries you'll need to run the code).</li>
+            <li>Upload to Arduino and Go! The code provided is a sample for you to get started.</li>
+        </ol>
+    </div>    
+    <div class="circuito">
+        <span class="badge1" data-badge="5"></span>
+        <h3>Well done! you've finished your Circuito project</h3>
+        <p>You're more than welcome to <a href="mailto:hello@circuito.com">contact us</a> with any further questions</p>
+        <p>Also, we're giving you the chance to gain 1,000,000 karma points by answering this tiny-mini-micro <a href="https://circuito.typeform.com/to/pfKypx">SURVEY</a></p>
+    </div>
+    
+
+    <div class="license">
+        <h3>License</h3>
+        <h4>The firmware is distributed under:</h4>
+        <p><a target="_blank" href="http://www.gnu.org/licenses/gpl-3.0.en.html"> GNU General Public License v3 (GPL-3)</a> </p>
+
+        <p>You may copy, distribute and modify the software as long as you track changes/dates in source files. Any modifications to or software including (via compiler) GPL-licensed code must also be made available under the GPL 
+        along with build & install instructions.</p>
+
+        <p>The schematics, breadboard view and .fzz files for editing are done using <a target="_blank" href="http://www.fritzing.org">Fritzing.org</a> and are distributed under the<a target="_blank" href="http://creativecommons.org/licenses/by-sa/3.0/"> Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)] </a></p>
+        <h4>Disclaimer</h4>
+        <p>All content of this project is furnished "as is", without technical support, and with no warranty, express or implied, as to its usefulness for any purpose.</p>
+    </div>
+        <div class="social">
+        <ul class="list-inline">
+          <li>
+            <a href="https://www.facebook.com/circuito.io" target="_blank" rel="nofollow">
+             <i class="fa fa-facebook-official"></i>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.youtube.com/channel/UCA6yozjOjgfMmPTxzy6b1Dw" target="_blank" rel="nofollow">
+              <i class="fa fa-youtube-play"></i>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.thingiverse.com/circuito/about" target="_blank" rel="nofollow">
+              <i class="fa fa-rocket"></i>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/company/roboplan-technologies-ltd" target="_blank" rel="nofollow">
+              <i class="fa fa-linkedin-square"></i>
+            </a>
+          </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>
