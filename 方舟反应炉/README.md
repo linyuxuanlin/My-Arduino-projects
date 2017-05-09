@@ -49,14 +49,14 @@
 
 
 # 2.把程序下载进arduino
-程序：https://coding.net/u/linyuxuanlin/p/Arc_reactor/git/tree/master
+程序：https://github.com/linyuxuanlin/My-Arduino-projects/tree/master/%E6%96%B9%E8%88%9F%E5%8F%8D%E5%BA%94%E7%82%89
 
 ##### 实现的效果：
 - 蓝色呼吸灯
 - 开机有彩虹灯的特效
 
 # 3.把主体打印出来
-模型文件放在[这](https://coding.net/u/linyuxuanlin/p/Arc_reactor/git/tree/master)
+模型文件放在[这](https://github.com/linyuxuanlin/My-Arduino-projects/tree/master/%E6%96%B9%E8%88%9F%E5%8F%8D%E5%BA%94%E7%82%89/3D%E6%A8%A1%E5%9E%8B)
 ![模型.png](http://upload-images.jianshu.io/upload_images/2218072-6c6e24325bcc8a0f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 # 4.组装
