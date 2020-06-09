@@ -1,0 +1,46 @@
+Change Component Comment : Designator=R5 Old Comment=1.2KΩ (1201) ±1% New Comment=1.6k
+Added Component: Designator=D13(0603_LED_S1)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "供应商链接"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.szlcsc.com/product/details_73150.html"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Notepad"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier"; Value = "LC"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SuppliersPartNumber"; Value = "C72041"; VariantName = "[No Variations]"
+Added Component: Designator=D14(0603_LED_S1)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "供应商链接"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.szlcsc.com/product/details_73150.html"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Notepad"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier"; Value = "LC"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SuppliersPartNumber"; Value = "C72041"; VariantName = "[No Variations]"
+Added Component: Designator=D15(0603_LED_S1)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "供应商链接"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.szlcsc.com/product/details_73150.html"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Notepad"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier"; Value = "LC"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SuppliersPartNumber"; Value = "C72041"; VariantName = "[No Variations]"
+Added Component: Designator=D16(0603_LED_S1)
+Add component. Clean all parameters for all variants
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "供应商链接"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.szlcsc.com/product/details_73150.html"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Notepad"; Value = ""; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package"; Value = "0603"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier"; Value = "LC"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "SuppliersPartNumber"; Value = "C72041"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=NetD1_A Pin=D13-A
+Added Pin To Net: NetName=NetD1_K Pin=D13-K
+Added Pin To Net: NetName=NetD1_A Pin=D14-A
+Added Pin To Net: NetName=NetD1_K Pin=D14-K
+Added Pin To Net: NetName=NetD1_A Pin=D15-A
+Added Pin To Net: NetName=NetD1_K Pin=D15-K
+Added Pin To Net: NetName=NetD1_A Pin=D16-A
+Added Pin To Net: NetName=NetD1_K Pin=D16-K
+Added Member To Class: ClassName=Arc Member=Component D13 蓝灯 0603
+Added Member To Class: ClassName=Arc Member=Component D14 蓝灯 0603
+Added Member To Class: ClassName=Arc Member=Component D15 蓝灯 0603
+Added Member To Class: ClassName=Arc Member=Component D16 蓝灯 0603
+Added Room: Name=Arc

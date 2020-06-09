@@ -1,0 +1,13 @@
+Added Component: Designator=C1(*CAPCP3528X210N)
+Add component. Clean all parameters for all variants
+Added Component: Designator=C2(*CAPCP3528X210N)
+Add component. Clean all parameters for all variants
+Added Pin To Net: NetName=NetC2_1 Pin=C1-1
+Added Pin To Net: NetName=NetC1_2 Pin=C1-2
+Added Pin To Net: NetName=NetC1_1 Pin=C2-1
+Added Pin To Net: NetName=NetC1_2 Pin=C2-2
+Change Net Name : Old Net Name=NetC1_1 New Net Name=NetC2_+
+Change Net Name : Old Net Name=NetC1_2 New Net Name=NetC1__
+Change Net Name : Old Net Name=NetC2_1 New Net Name=NetC1_+
+Added Member To Class: ClassName=Arc Member=Component C1 Cap
+Added Member To Class: ClassName=Arc Member=Component C2 Cap
