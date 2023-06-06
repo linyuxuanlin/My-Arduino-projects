@@ -1,3 +1,4 @@
-# Arduino作品文件
-详细教程在[我的网站](http://linyuxuanlin.github.io/)
+# Arduino 相关的项目文件
+
+项目相关的介绍文章请移步 [**Power's Wiki**](https://wiki-power.com/)。
 
