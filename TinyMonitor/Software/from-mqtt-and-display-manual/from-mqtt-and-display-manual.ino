@@ -8,9 +8,9 @@
 #define OLED_SCL 0
 
 // MQTT 定义
-#define WIFI_SSID "Power_Wi-Fi_p2.4"
-#define WIFI_PASSWORD "82467627171982547"
-#define MQTT_BROKER "192.168.31.8"
+#define WIFI_SSID "xx"
+#define WIFI_PASSWORD "xxx"
+#define MQTT_BROKER "192.168.31.x"
 #define MQTT_PORT 1883
 #define MQTT_USERNAME "power"
 #define MQTT_PASSWORD "123"
