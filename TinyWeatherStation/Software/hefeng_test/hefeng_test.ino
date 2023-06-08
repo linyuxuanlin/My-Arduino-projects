@@ -13,7 +13,7 @@ U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R2, OLED_SCL, OLED_SDA, U8X8_PIN_N
 const char* ssid = "Power_Wi-Fi_p2.4";
 const char* password = "82467627171982547";
 
-const char* server = "https://devapi.qweather.com/v7/weather/3d?location=101010100&key=dd33cabb69224a8e9c1599d550e17408";
+const char* server = "https://devapi.qweather.com/v7/weather/3d?location=101010100&key=dd33cabb69224a8e9c1599d550e17408&lang=en&gzip=n";
 HTTPClient http;
 
 static const unsigned char PROGMEM weather_xbm[] = {
@@ -44,6 +44,7 @@ void loop() {
     int httpCode = http.GET();
     if (httpCode > 0) {
       String payload = http.getString();
+      Serial.println("point");
       Serial.println(payload);
       DynamicJsonDocument doc(1024);
       deserializeJson(doc, payload);
