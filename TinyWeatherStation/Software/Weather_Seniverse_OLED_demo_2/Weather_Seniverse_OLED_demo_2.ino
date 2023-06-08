@@ -8,8 +8,6 @@
 #define OLED_SDA 1
 #define OLED_SCL 0
 
-#define Times 5000  // 页面显示时间(毫秒)
-
 // 定义 OLED 屏幕对象
 U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R2, OLED_SCL, OLED_SDA, U8X8_PIN_NONE);
 
@@ -19,6 +17,9 @@ const char* password = "82467627171982547";  // Wi-Fi 密码
 const char* host = "api.seniverse.com";   // 心知天气 API 地址
 String loaction = "shanghai";             // 位置变量
 String privateKey = "S_iTqDZOILpZdLBZS";  // 心知天气的私钥
+
+int i = 0;
+
 
 typedef struct weather_get {
   const char* v_date;            // 日期
@@ -36,8 +37,9 @@ typedef struct weather_get {
 const char* city;    // 存放返回值的变量
 Weather_get day[3];  // 获取天气信息
 
-int sec = 0;
-int num = 0;
+
+const int DELAY_TIME = 5000;       // 设置延迟的时间，单位毫秒
+unsigned long displayStartMillis;  //记录上一次屏幕刷新的时间
 
 //	WiFi的初始化和连接
 void WiFi_Connect() {
@@ -179,220 +181,6 @@ void netStartUI(char* title, int num, bool isFirst) {
   } while (u8g2.nextPage());
 }
 
-void baseUI(int dotNum, int dotSec, bool isMes, bool isShow, bool isRefresh) {
-  //side_dotNOSec(dotNum);
-  int y = (64 - dotNum * 4 - (dotNum - 1) * 4);
-  for (int i = 0; i < dotNum; i++)
-    u8g2.drawCircle(4, y + 8 * i, 2);
-
-  //side_dot(dotSec, dotNum);
-  int y = (64 - dotNum * 4 - (dotNum - 1) * 4);
-  u8g2.drawDisc(4, y + 8 * dotSec, 2);
-
-  if (isShow) {
-    Time(isMes, true, 0);
-  }
-  icon(0, 0, 0, 2);
-
-  //side_temperature(isRefresh);
-  if (isRefresh)
-    u8g2.drawXBM(0, 53, 8, 10, refresh);
-  else {}
-}
-
-
-//TBD
-void TodyTime(int y) {
-  str(weather.tody.date, 15, 60, y, u8g2_font_lucasfont_alternate_tr);
-  str(Time_c.time, 15, 50, y, u8g2_font_courB18_tn);
-  str(weather.now, 15, 17, y, u8g2_font_helvR10_tr);
-  if (weather.tody.cod >= 300) {
-    icon(67, 6, y, 1);  //伞
-  }
-  icon(88, 4, y, weather.tody.cod);
-  str(weather.tody.status, 15, 28, y, u8g2_font_baby_tf);
-  rectangle(y);
-}
-
-//TBD
-void Tody(int y) {
-  rectangle(y);
-  icon(36, 9, y, weather.tody.cod);
-  if (weather.tody.cod >= 300) {
-    icon(12, 26, y, 1);  //伞
-  }
-  str(weather.now, 78, 25, y, u8g2_font_profont22_tr);                   // 12*22  现在温度
-  str(weather.tody.range, 78, 40, y, u8g2_font_lucasfont_alternate_tr);  // 最高与最低温度
-  str(weather.pm25, 78, 52, y, u8g2_font_trixel_square_tr);              // pm2.5
-  str(weather.qlty, 78, 60, y, u8g2_font_trixel_square_tr);
-  str(weather.city, 14, 60, y, u8g2_font_lucasfont_alternate_tr);  // 城市名字
-}
-
-//TBD
-void Two(int y) {
-  rectangle(y);
-  icon(38, 6, y, weather.tom.cod);
-  icon(82, 6, y, weather.afterTom.cod);
-  str(weather.tom.range, 26, 56, y, u8g2_font_lucasfont_alternate_tr);       // 最高与最低温度
-  str(weather.afterTom.range, 75, 56, y, u8g2_font_lucasfont_alternate_tr);  // 最高与最低温度
-}
-
-//TBD
-void Message(int y) {
-  //  u8g2_font_wqy12_t_gb2312
-  //  u8g2_font_lucasfont_alternate_tr
-  if (y == 0) {
-    u8g2.setFont(u8g2_font_wqy12_t_gb2312);
-  }
-  rectangle(y);
-  strNoFont(weather.title, 41, 20, y);
-  strNoFont(weather.detail1, 15, 32, y);
-  strNoFont(weather.detail2, 15, 44, y);
-  strNoFont(weather.detail3, 15, 56, y);
-  strNoFont(weather.detail4, 15, 68, y);
-  // str(weather.detail5, 15, 37, y, u8g2_font_lucasfont_alternate_tr);
-}
-
-//TBD
-void strNoFont(const char* string, int x, int yy, int y) {
-  u8g2.setCursor(x, yy - y);
-  u8g2.print(string);
-}
-
-
-//TBD
-void rectangle(int y) {
-  u8g2.drawRFrame(10, 0 - y, 118, 64, 5);
-}
-
-//TBD
-void icon(int x, int yy, int y, int statu) {
-
-  switch (statu) {
-    case 1:
-      u8g2.drawXBM(x, yy - y, 24, 24, umbrella);
-      break;
-    case 2:
-      u8g2.drawXBM(x, yy - y, 10, 10, netIcon);
-      break;
-    case 3:
-      u8g2.drawXBM(x, yy - y, 8, 10, refresh);
-      break;
-    case 100:
-      u8g2.drawXBM(x, yy - y, 40, 40, suny);
-      break;
-    case 101:
-    case 103:
-      u8g2.drawXBM(x, yy - y, 40, 40, cloudy);
-      break;
-    case 102:
-      u8g2.drawXBM(x, yy - y, 40, 40, partlyCloudy);
-      break;
-    case 104:
-      u8g2.drawXBM(x, yy - y, 40, 40, overcast);
-      break;
-    case 300:
-    case 301:
-    case 302:
-    case 303:
-    case 304:
-      u8g2.drawXBM(x, yy - y, 40, 40, thunderShowe);
-      break;
-    case 305:
-    case 309:
-      u8g2.drawXBM(x, yy - y, 40, 40, lightRain);
-      break;
-    case 306:
-    case 313:
-      u8g2.drawXBM(x, yy - y, 40, 40, moderateRain);
-      break;
-    case 307:
-    case 308:
-    case 310:
-    case 311:
-    case 312:
-      u8g2.drawXBM(x, yy - y, 40, 40, heavyRain);
-      break;
-    case 400:
-      u8g2.drawXBM(x, yy - y, 40, 40, lightSnow);
-      break;
-    case 401:
-    case 407:
-      u8g2.drawXBM(x, yy - y, 40, 40, moderateSnow);
-      break;
-    case 402:
-    case 403:
-      u8g2.drawXBM(x, yy - y, 40, 40, heavySnow);
-      break;
-    case 404:
-    case 405:
-    case 406:
-      u8g2.drawXBM(x, yy - y, 40, 40, sleet);
-      break;
-    default:
-      u8g2.drawXBM(x, yy - y, 40, 40, unknown);
-      break;
-  }
-}
-
-
-void GDStart() {
-  int y = 2;
-  if (sec == 5)
-    sec = 0;
-  do {
-    u8g2.firstPage();
-    do {
-      if (sec == 0)
-        baseUI(4, sec, true, false, false);
-      else {
-        if (sec == 4)
-          baseUI(4, 0, true, false, false);
-        else
-          baseUI(4, sec, true, true, false);
-      }
-      switch (sec) {
-        case 0:
-          TodyTime(0);
-          break;
-        case 1:
-          TodyTime(y);
-          Tody(-64 + y);
-          break;
-        case 2:
-          Tody(y);
-          Two(-64 + y);
-          break;
-        case 3:
-          Two(y);
-          Message(-64 + y);
-          break;
-        case 4:
-          Message(y);
-          TodyTime(-64 + y);
-          break;
-        default:
-          break;
-      }
-    } while (
-      u8g2.nextPage());
-    if (sec == 0)
-      break;
-    y += 2;
-  } while (y <= 64);
-  if (sec != 4)
-    delay(Times);
-  else {
-    if (num == 10) {
-      GDWeatherGet(fingerprint, url, true);
-      num = 0;
-    } else if (num % 2 == 0) {
-      NTPRequest(false);
-    }
-    num++;
-  }
-  sec++;
-}
 
 void setup() {
   // Serial
@@ -402,24 +190,86 @@ void setup() {
   WiFi_Connect();
 
 
-  //u8g2.enableUTF8Print();
-  //u8g2.setFont(u8g2_font_wqy12_t_gb2312);
-}
-
-void loop() {
-
+  //
   // netStartUI("数据解析中...", 20, isFirst);
   netStartUI("Preparing...", 0, 1);
 
   getWeatherData();
   //serialPrintResult();
 
-  netStartUI("Preparing...", 50, 1);
-  netStartUI("Preparing...", 80, 1);
+  //netStartUI("Preparing...", 50, 1);
+  //netStartUI("Preparing...", 80, 1);
   netStartUI("JsonParse Success", 100, 1);
+  //
 
-  GDStart();
 
+  //u8g2.enableUTF8Print();
+  //u8g2.setFont(u8g2_font_wqy12_t_gb2312);
+
+  u8g2.clearBuffer();
+  u8g2.setFont(u8g2_font_resoledmedium_tr);
+  //u8g2_font_5x7_tf
+
+
+  displayStartMillis = millis();  //初始化刷新时间
+}
+
+void loop() {
+  if (millis() - displayStartMillis > DELAY_TIME) {  //如果时间到了
+    displayStartMillis = millis();                   //更新刷新时间
+
+    for (int dayNum = 0; i < 3; i++) {
+
+      u8g2.firstPage();  //第一页
+      do {
+        dayNum = 0;
+
+        u8g2.setCursor(60, 10);
+        u8g2.print(day[dayNum].v_date);  // 日期
+
+        u8g2.setCursor(60, 20);
+        u8g2.print(day[dayNum].v_text_day);  // 白天天气
+
+        u8g2.setCursor(60, 30);
+        u8g2.print("Max_t: ");
+        u8g2.print(day[dayNum].v_high);  // 当天最高温度(℃)
+        u8g2.print(" C");
+
+        u8g2.setCursor(60, 40);
+        u8g2.print("Min_t: ");
+        u8g2.print(day[dayNum].v_low);  // 当天最低温度(℃)
+        u8g2.print(" C");
+
+        u8g2.setCursor(60, 50);
+        u8g2.print("Wind_d: ");
+        u8g2.print(day[dayNum].v_wind_direction);  // 风向
+
+        //u8g2.setCursor(60, 60);
+        //u8g2.print("Wind_s: ");
+        //u8g2.print(day[dayNum].v_wind_speed);  // 风速(km/h)
+
+        u8g2.setCursor(60, 60);
+        u8g2.print("Humi: ");
+        u8g2.print(day[dayNum].v_humidity);  // 相对湿度(%)
+        u8g2.print(" %");
+
+        //u8g2.print("Weather: ");
+        //u8g2.setCursor(68, 20);
+
+      } while (u8g2.nextPage());  //处理完第一页的内容后进入下一页
+      delay(DELAY_TIME);          //等待一段时间再开始下一次循环
+    }
+
+    /*
+    u8g2.firstPage();  //第二页
+    do {
+      u8g2.setFont(u8g2_font_profont11_mf);
+      u8g2.setCursor(20, 20);
+      u8g2.print("page 2");     //设置第二页的显示内容
+    } while (u8g2.nextPage());  //处理完第二页的内容后进入下一页
+    delay(DELAY_TIME);          //等待一段时间再开始下一次循环
+*/
+  }
 
   /*
   // 显示欢迎界面

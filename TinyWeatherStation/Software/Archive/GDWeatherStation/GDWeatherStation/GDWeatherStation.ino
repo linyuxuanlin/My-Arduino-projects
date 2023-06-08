@@ -2,8 +2,8 @@
 
 void setup()
 {
-    char ssid[] = "Power_Wi-Fi_p2.4"; // wifi ssid
-    char password[] = "82467627171982547"; // wifi password
+    char ssid[] = "Xiaomi_984B"; // wifi ssid
+    char password[] = "hanxixi6004"; // wifi password
     char url[] = "https://raw.githubusercontent.com/goldhan/MockJSON/master/GDWeather.json"; // git url
     // SHA1 fingerprint of the certificate  
     //把你需要调用的请求地址用浏览器访问，然后打开调试工具选择“安全”即可看到对应请求的fingerprint，复制到这个地方即可

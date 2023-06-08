@@ -8,16 +8,7 @@
 #include <U8g2lib.h>
 #include <WiFiUdp.h>
 //U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0, /* clock=*/14, /* data=*/27, /* reset=*/U8X8_PIN_NONE);
-//U8G2_SH1107_64X128_1_4W_HW_SPI u8g2(U8G2_R1, 14,27,33);
-
-
-// OLED 屏幕定义
-#define OLED_SDA 1
-#define OLED_SCL 0
-
-// 定义 OLED 屏幕对象
-U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R0, OLED_SCL, OLED_SDA, U8X8_PIN_NONE);
-
+U8G2_SH1107_64X128_1_4W_HW_SPI u8g2(U8G2_R1, 14,27,33);
 struct Time_c {
   char time[6];
 } Time_c = {
