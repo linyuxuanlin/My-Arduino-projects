@@ -218,11 +218,10 @@ void loop() {
   if (millis() - displayStartMillis > DELAY_TIME) {  //如果时间到了
     displayStartMillis = millis();                   //更新刷新时间
 
-    for (int dayNum = 0; i < 3; i++) {
-
+    for (int dayNum = 0; dayNum < 3; dayNum++) {
       u8g2.firstPage();  //第一页
       do {
-        dayNum = 0;
+        //dayNum = 0;
 
         u8g2.setCursor(60, 10);
         u8g2.print(day[dayNum].v_date);  // 日期
@@ -241,12 +240,8 @@ void loop() {
         u8g2.print(" C");
 
         u8g2.setCursor(60, 50);
-        u8g2.print("Wind_d: ");
-        u8g2.print(day[dayNum].v_wind_direction);  // 风向
-
-        //u8g2.setCursor(60, 60);
-        //u8g2.print("Wind_s: ");
-        //u8g2.print(day[dayNum].v_wind_speed);  // 风速(km/h)
+        u8g2.print("Wind_s: ");
+        u8g2.print(day[dayNum].v_wind_scale);  // 风力等级
 
         u8g2.setCursor(60, 60);
         u8g2.print("Humi: ");
