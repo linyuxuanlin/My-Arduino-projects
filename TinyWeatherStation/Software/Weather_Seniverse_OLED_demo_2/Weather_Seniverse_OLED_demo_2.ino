@@ -5,8 +5,6 @@
 #include "Define.h"
 #include "Function.h"
 
-
-
 void setup() {
 
   netStartUI("Init...", 0);
@@ -16,15 +14,15 @@ void setup() {
   u8g2.begin();  // 初始化 OLED 屏幕
   WiFi_Connect();
   getWeatherData();
+  
   //serialPrintResult();
 
-  u8g2.enableUTF8Print();
+  //u8g2.enableUTF8Print();
   //u8g2.setFont(u8g2_font_wqy12_t_gb2312);
 
   u8g2.clearBuffer();
   u8g2.setFont(u8g2_font_resoledmedium_tr);
   //u8g2_font_5x7_tf
-
 
   displayStartMillis = millis();  //初始化刷新时间
 }
@@ -105,8 +103,6 @@ void loop() {
 
         u8g2.setCursor(60, 10);
         u8g2.print(whichDay);  // 哪一天
-
-
 
         u8g2.setCursor(60, 30);
         u8g2.print(day[dayNum].v_low);  // 当天最低温度(℃)
