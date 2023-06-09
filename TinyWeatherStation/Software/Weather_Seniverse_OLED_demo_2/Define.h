@@ -33,7 +33,7 @@ typedef struct weather_get {
 const char* city;    // 存放返回值的变量
 Weather_get day[3];  // 获取天气信息
 
-const int pageFlipTime = 5000;      // 设置翻页的时间间隔，单位毫秒
-unsigned long displayStartMillis;   //记录上一次屏幕刷新的时间
-const int dataRefreshTime = 30000;  // 设置数据刷新的时间间隔，单位毫秒
-unsigned long refreshStartMillis;   //记录上一次数据更新的时间
+const int pageFlipTime = 5000;       // 设置翻页的时间间隔，单位毫秒
+unsigned long displayStartMillis;    // 记录上一次屏幕刷新的时间
+const int dataRefreshTime = 600000;  // 设置数据刷新的时间间隔，单位毫秒，10 分钟
+unsigned long refreshStartMillis;    // 记录上一次数据更新的时间

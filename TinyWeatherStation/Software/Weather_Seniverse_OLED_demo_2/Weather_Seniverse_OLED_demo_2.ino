@@ -39,12 +39,10 @@ void loop() {
     displayStartMillis = millis();                     //更新刷新时间
 
     for (int dayNum = 0; dayNum < 3; dayNum++) {
-      u8g2.firstPage();  //第一页
+      u8g2.firstPage(); 
       do {
 
         const uint8_t* icon;
-
-        //icon = sunny;
 
         int v_code_day_int = atoi(day[dayNum].v_code_day);
 
