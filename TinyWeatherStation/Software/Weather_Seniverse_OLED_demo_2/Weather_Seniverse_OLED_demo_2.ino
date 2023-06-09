@@ -24,6 +24,7 @@ int i = 0;
 typedef struct weather_get {
   const char* v_date;            // 日期
   const char* v_text_day;        // 白天天气现象文字
+  const char* v_code_day;        // 白天天气现象代码
   const char* v_text_night;      // 晚间天气现象文字
   const char* v_high;            // 当天最高温度
   const char* v_low;             // 当天最低温度
@@ -123,6 +124,7 @@ void getWeatherData() {
     JsonObject& result = results_0_daily[dayNum];
     day[dayNum].v_date = result["date"];
     day[dayNum].v_text_day = result["text_day"];
+    day[dayNum].v_code_day = result["code_day"];
     day[dayNum].v_text_night = result["text_night"];
     day[dayNum].v_high = result["high"];
     day[dayNum].v_low = result["low"];
@@ -148,6 +150,8 @@ void serialPrintResult() {
     Serial.println(day[dayNum].v_date);
     Serial.print("白天天气: ");
     Serial.println(day[dayNum].v_text_day);
+    Serial.print("白天天气代码: ");
+    Serial.println(day[dayNum].v_code_day);
     Serial.print("晚间天气: ");
     Serial.println(day[dayNum].v_text_night);
     Serial.print("当天最高温度(℃): ");
@@ -199,7 +203,7 @@ void setup() {
 
   //netStartUI("Preparing...", 50, 1);
   //netStartUI("Preparing...", 80, 1);
-  netStartUI("JsonParse Success", 100, 1);
+  netStartUI("Success, pls wait..", 100, 1);
   //
 
 
@@ -221,32 +225,99 @@ void loop() {
     for (int dayNum = 0; dayNum < 3; dayNum++) {
       u8g2.firstPage();  //第一页
       do {
-        //dayNum = 0;
 
-        u8g2.setCursor(60, 10);
-        u8g2.print(day[dayNum].v_date);  // 日期
+        const uint8_t* icon;
 
-        u8g2.setCursor(60, 20);
+        //icon = sunny;
+
+        int v_code_day_int = atoi(day[dayNum].v_code_day);
+
+        switch (v_code_day_int) {
+          case 0 && 1 && 2 && 3:
+            icon = sunny;
+            break;
+          case 4:
+            icon = cloudy;
+            break;
+          case 5 && 6 && 7 && 8:
+            icon = partlyCloudy;
+            break;
+          case 9:
+            icon = overcast;
+            break;
+          case 11:
+            icon = thunderShower;
+            break;
+          case 13:
+            icon = lightRain;
+            break;
+          case 14:
+            icon = moderateRain;
+            break;
+          case 15:
+            icon = heavyRain;
+            break;
+          case 20:
+            icon = sleet;
+            break;
+          case 22:
+            icon = lightSnow;
+            break;
+          case 23:
+            icon = moderateSnow;
+            break;
+          case 24:
+            icon = heavySnow;
+            break;
+          default:
+            icon = unknown;
+            break;
+        }
+
+        u8g2.drawXBM(10, 6, 40, 40, icon);
+
+        u8g2.setCursor((24 - u8g2.getUTF8Width(day[dayNum].v_text_day)) / 2 + 16, 60);
         u8g2.print(day[dayNum].v_text_day);  // 白天天气
 
+        String whichDay;
+        switch (dayNum) {
+          case 0:
+            whichDay = "Today";
+            break;
+          case 1:
+            whichDay = "Tomorrow";
+            break;
+          case 2:
+            whichDay = "After Tom";
+            break;
+        }
+
+        u8g2.setCursor(60, 10);
+        u8g2.print(whichDay);  // 哪一天
+
+
+
         u8g2.setCursor(60, 30);
-        u8g2.print("Max_t: ");
+        u8g2.print(day[dayNum].v_low);  // 当天最低温度(℃)
+        u8g2.print("-");
         u8g2.print(day[dayNum].v_high);  // 当天最高温度(℃)
         u8g2.print(" C");
 
-        u8g2.setCursor(60, 40);
-        u8g2.print("Min_t: ");
-        u8g2.print(day[dayNum].v_low);  // 当天最低温度(℃)
-        u8g2.print(" C");
 
-        u8g2.setCursor(60, 50);
-        u8g2.print("Wind_s: ");
+        u8g2.setCursor(60, 40);
+        u8g2.print("Wind: ");
+        u8g2.print(day[dayNum].v_wind_direction);  // 风向
+        u8g2.print(" L");
         u8g2.print(day[dayNum].v_wind_scale);  // 风力等级
 
-        u8g2.setCursor(60, 60);
+        u8g2.setCursor(60, 50);
         u8g2.print("Humi: ");
         u8g2.print(day[dayNum].v_humidity);  // 相对湿度(%)
         u8g2.print(" %");
+
+        
+        u8g2.setCursor(60, 60);
+        u8g2.print(day[dayNum].v_date);  // 日期
 
         //u8g2.print("Weather: ");
         //u8g2.setCursor(68, 20);
