@@ -8,13 +8,12 @@
 void setup() {
 
   netStartUI("Init...", 0);
-  //netStartUI("Preparing...", 0);
 
   Serial.begin(9600);
   u8g2.begin();  // 初始化 OLED 屏幕
   WiFi_Connect();
   getWeatherData();
-  
+
   //serialPrintResult();
 
   //u8g2.enableUTF8Print();
@@ -25,11 +24,19 @@ void setup() {
   //u8g2_font_5x7_tf
 
   displayStartMillis = millis();  //初始化刷新时间
+  refreshStartMillis = millis();  //初始化刷新时间
 }
 
 void loop() {
-  if (millis() - displayStartMillis > DELAY_TIME) {  //如果时间到了
-    displayStartMillis = millis();                   //更新刷新时间
+
+
+  if (millis() - refreshStartMillis > dataRefreshTime) {
+    refreshStartMillis = millis();  //更新刷新时间
+    getWeatherData();
+  }
+
+  if (millis() - displayStartMillis > pageFlipTime) {  //如果翻页时间间隔到了
+    displayStartMillis = millis();                     //更新刷新时间
 
     for (int dayNum = 0; dayNum < 3; dayNum++) {
       u8g2.firstPage();  //第一页
@@ -130,7 +137,7 @@ void loop() {
         //u8g2.setCursor(68, 20);
 
       } while (u8g2.nextPage());  //处理完第一页的内容后进入下一页
-      delay(DELAY_TIME);          //等待一段时间再开始下一次循环
+      delay(pageFlipTime);        //等待一段时间再开始下一次循环
     }
 
     /*
@@ -140,7 +147,7 @@ void loop() {
       u8g2.setCursor(20, 20);
       u8g2.print("page 2");     //设置第二页的显示内容
     } while (u8g2.nextPage());  //处理完第二页的内容后进入下一页
-    delay(DELAY_TIME);          //等待一段时间再开始下一次循环
+    delay(pageFlipTime);          //等待一段时间再开始下一次循环
 */
   }
 }
