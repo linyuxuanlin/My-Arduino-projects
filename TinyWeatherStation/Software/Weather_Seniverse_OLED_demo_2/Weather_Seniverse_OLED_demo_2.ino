@@ -1,6 +1,6 @@
 #include <WiFi.h>
 #include <ArduinoJson.h>
-#include <Wire.h>
+//#include <Wire.h>
 #include <U8g2lib.h>
 #include "Icon.h"
 
@@ -11,12 +11,13 @@
 // 定义 OLED 屏幕对象
 U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R2, OLED_SCL, OLED_SDA, U8X8_PIN_NONE);
 
-const char* ssid = "WiFi_SSID";       // Wi-Fi SSID
+const char* ssid = "WiFi_SSID";     // Wi-Fi SSID
 const char* password = "********";  // Wi-Fi 密码
 
 const char* host = "api.seniverse.com";   // 心知天气 API 地址
 String loaction = "shanghai";             // 位置变量
 String privateKey = "S_iTqDZOILpZdLBZS";  // 心知天气的私钥
+
 
 int i = 0;
 
@@ -46,6 +47,7 @@ unsigned long displayStartMillis;  //记录上一次屏幕刷新的时间
 void WiFi_Connect() {
   delay(10);
   Serial.println();
+  netStartUI("WiFi Connecting...", 10);
   Serial.print("Connecting to WIFI");
   Serial.println(ssid);
   WiFi.begin(ssid, password);
@@ -53,6 +55,8 @@ void WiFi_Connect() {
     delay(300);
     Serial.print(".");
   }
+
+  netStartUI("WiFi Connected...", 20);
 
   Serial.println("");  //换行
   Serial.println("WiFi connected Successful!");
@@ -64,13 +68,16 @@ void WiFi_Connect() {
 void getWeatherData() {
   Serial.print("正在尝试访问心知天气 API: ");
   Serial.println(host);
-  //port:所要连接的服务器端口号,允许使用int类型
+  netStartUI("API accessing...", 30);
   WiFiClient client;
   const int httpPort = 80;
   if (!client.connect(host, httpPort)) {
     Serial.println("connection failed");
+    netStartUI("API failed...", 20);
     return;
   }
+
+  netStartUI("API success...", 40);
 
   // 给请求创建一个 URL
   String url = "/v3/weather/daily.json?key=" + privateKey + "&location=" + loaction + "&language=en&unit=c&start=0&days=3";
@@ -78,6 +85,7 @@ void getWeatherData() {
   Serial.println(url);
 
   // 向服务器发送请求
+  netStartUI("Sending request...", 50);
   client.print(String("GET ") + url + " HTTP/1.1\r\n" + "Host: " + host + "\r\n" + "Connection: close\r\n\r\n");
   delay(100);
   String weather_data;
@@ -85,9 +93,11 @@ void getWeatherData() {
     String line = client.readStringUntil('\r');
     weather_data += line;
   }
+  netStartUI("Request success...", 60);
 
   //关闭连接
   client.stop();
+  netStartUI("Request done...", 70);
   Serial.println();
   Serial.println("Done, closing connection");
   Serial.println();
@@ -111,6 +121,8 @@ void getWeatherData() {
   const size_t capacity = JSON_ARRAY_SIZE(1) + JSON_ARRAY_SIZE(3) + JSON_OBJECT_SIZE(1) + JSON_OBJECT_SIZE(3) + JSON_OBJECT_SIZE(6) + 3 * JSON_OBJECT_SIZE(12) + 700;
   DynamicJsonBuffer jsonBuffer(capacity);
 
+  netStartUI("Get city name...", 80);
+
   //获取城市名称
   JsonObject& root = jsonBuffer.parseObject(json_weather_data);
   JsonObject& results_0 = root["results"][0];
@@ -118,6 +130,7 @@ void getWeatherData() {
   city = results_0_location["name"];
   JsonArray& results_0_daily = results_0["daily"];
 
+  netStartUI("Get data...", 90);
 
   for (int dayNum = 0; dayNum < 3; dayNum++) {
     // 返回今明后三天的天气数据
@@ -137,6 +150,7 @@ void getWeatherData() {
 
   if (!root.success()) {
     Serial.println("parseObject() failed");
+    netStartUI("Get data failed...", 80);
     return;
   }
 }
@@ -173,7 +187,7 @@ void serialPrintResult() {
 }
 
 
-void netStartUI(char* title, int num, bool isFirst) {
+void netStartUI(char* title, int num) {
   u8g2.setFont(u8g2_font_wqy12_t_gb2312);
   u8g2.firstPage();
   do {
@@ -187,24 +201,26 @@ void netStartUI(char* title, int num, bool isFirst) {
 
 
 void setup() {
-  // Serial
+
+  netStartUI("Init...", 0);
+  //netStartUI("Preparing...", 0);
+
   Serial.begin(9600);
   u8g2.begin();  // 初始化 OLED 屏幕
-  Wire.begin();  // 开始 I2C 传输
+  //Wire.begin();  // 开始 I2C 传输
   WiFi_Connect();
 
 
   //
-  // netStartUI("数据解析中...", 20, isFirst);
-  netStartUI("Preparing...", 0, 1);
+  // netStartUI("数据解析中...", 20, );
 
   getWeatherData();
   //serialPrintResult();
 
-  //netStartUI("Preparing...", 50, 1);
-  //netStartUI("Preparing...", 80, 1);
-  netStartUI("Success, pls wait..", 100, 1);
-  //
+  //netStartUI("Preparing...", 50);
+  //netStartUI("Preparing...", 80);
+
+
 
 
   //u8g2.enableUTF8Print();
@@ -219,6 +235,7 @@ void setup() {
 }
 
 void loop() {
+  netStartUI("Success, pls wait..", 100);
   if (millis() - displayStartMillis > DELAY_TIME) {  //如果时间到了
     displayStartMillis = millis();                   //更新刷新时间
 
@@ -315,7 +332,7 @@ void loop() {
         u8g2.print(day[dayNum].v_humidity);  // 相对湿度(%)
         u8g2.print(" %");
 
-        
+
         u8g2.setCursor(60, 60);
         u8g2.print(day[dayNum].v_date);  // 日期
 
