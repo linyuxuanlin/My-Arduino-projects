@@ -10,7 +10,7 @@ U8G2_SSD1306_128X64_NONAME_F_HW_I2C u8g2(U8G2_R2, /* reset=*/U8X8_PIN_NONE, /* c
 
 //	WiFi的初始化和连接
 void WiFi_Connect() {
-  WiFi.begin("Power_Wi-Fi_p2.4", "82467627171982547");
+  WiFi.begin("WiFi_SSID", "********");
   while (WiFi.status() != WL_CONNECTED) {  //这里是阻塞程序，直到连接成功
     delay(300);
     Serial.print(".");

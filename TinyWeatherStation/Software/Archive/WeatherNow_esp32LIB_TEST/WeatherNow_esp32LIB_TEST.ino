@@ -1,7 +1,7 @@
 #include <ESP32_Heweather.h>
 
-const char* ssid     = "Power_Wi-Fi_p2.4";     // WiFi名称
-const char* password = "82467627171982547"; // WiFi密码
+const char* ssid     = "WiFi_SSID";     // WiFi名称
+const char* password = "********"; // WiFi密码
 
 String UserKey = "dd33cabb69224a8e9c1599d550e17408";   // 私钥 https://dev.heweather.com/docs/start/get-api-key
 String Location = "101010100"; // 城市代码 https://github.com/heweather/LocationList,表中的 Location_ID

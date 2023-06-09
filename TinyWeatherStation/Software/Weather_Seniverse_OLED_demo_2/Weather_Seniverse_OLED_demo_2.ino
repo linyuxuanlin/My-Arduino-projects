@@ -11,8 +11,8 @@
 // 定义 OLED 屏幕对象
 U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R2, OLED_SCL, OLED_SDA, U8X8_PIN_NONE);
 
-const char* ssid = "Power_Wi-Fi_p2.4";       // Wi-Fi SSID
-const char* password = "82467627171982547";  // Wi-Fi 密码
+const char* ssid = "WiFi_SSID";       // Wi-Fi SSID
+const char* password = "********";  // Wi-Fi 密码
 
 const char* host = "api.seniverse.com";   // 心知天气 API 地址
 String loaction = "shanghai";             // 位置变量
