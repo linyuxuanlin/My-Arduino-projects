@@ -115,7 +115,6 @@ void loop() {
         u8g2.print(day[dayNum].v_high);  // 当天最高温度(℃)
         u8g2.print(" C");
 
-
         u8g2.setCursor(60, 40);
         u8g2.print("Wind: ");
         u8g2.print(day[dayNum].v_wind_direction);  // 风向
@@ -126,7 +125,6 @@ void loop() {
         u8g2.print("Humi: ");
         u8g2.print(day[dayNum].v_humidity);  // 相对湿度(%)
         u8g2.print(" %");
-
 
         u8g2.setCursor(60, 60);
         u8g2.print(day[dayNum].v_date);  // 日期
