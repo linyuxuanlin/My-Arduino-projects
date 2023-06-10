@@ -5,7 +5,7 @@ const char* ssid = "WiFi_SSID";       // Wi-Fi SSID
 const char* password = "********";  // Wi-Fi 密码
 
 const char* host = "api.seniverse.com";   // 心知天气 API 地址
-String loaction = "shanghai";             // 位置变量
+String location = "shanghai";             // 位置变量
 String privateKey = "S_iTqDZOILpZdLBZS";  // 心知天气的私钥
 
 typedef struct weather_get {
@@ -56,7 +56,7 @@ void getWeatherData() {
   }
 
   // 给请求创建一个 URL
-  String url = "/v3/weather/daily.json?key=" + privateKey + "&location=" + loaction + "&language=en&unit=c&start=0&days=3";
+  String url = "/v3/weather/daily.json?key=" + privateKey + "&location=" + location + "&language=en&unit=c&start=0&days=3";
   Serial.print("Requesting URL: ");
   Serial.println(url);
 
