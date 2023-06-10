@@ -1,4 +1,5 @@
 
+#include <ArduinoJson.h>
 
 void netStartUI(char* title, int num) {
   u8g2.setFont(u8g2_font_wqy12_t_gb2312);
@@ -72,7 +73,7 @@ void getWeatherData() {
   Serial.println();
 
   // 寻找 JSON 天气数据起始位置
-  String json_weather_data;
+  ///String json_weather_data;
   int jsonIndex;
 
   for (int i = 0; i < weather_data.length(); i++) {
@@ -83,45 +84,87 @@ void getWeatherData() {
   }
 
   // 获取天气数据
-  json_weather_data = weather_data.substring(jsonIndex);
+  ///json_weather_data = weather_data.substring(jsonIndex);
 
   //利用 ArduinoJson 库解析心知返回的 json 天气数据
   //可以利用 https://arduinojson.org/v5/assistant/ Arduinojson 助手生成相关json解析代码
-  const size_t capacity = JSON_ARRAY_SIZE(1) + JSON_ARRAY_SIZE(3) + JSON_OBJECT_SIZE(1) + JSON_OBJECT_SIZE(3) + JSON_OBJECT_SIZE(6) + 3 * JSON_OBJECT_SIZE(12) + 700;
-  DynamicJsonBuffer jsonBuffer(capacity);
+  //const size_t capacity = JSON_ARRAY_SIZE(1) + JSON_ARRAY_SIZE(3) + JSON_OBJECT_SIZE(1) + JSON_OBJECT_SIZE(3) + JSON_OBJECT_SIZE(6) + 3 * JSON_OBJECT_SIZE(12) + 700;
+  //DynamicJsonDocument jsonBuffer(1024);  //原先是 capacity
+  StaticJsonDocument<1024> doc;
+
+
+  DeserializationError error = deserializeJson(doc, weather_data);
+
+  if (error) {
+    Serial.print("deserializeJson() failed: ");
+    Serial.println(error.c_str());
+    netStartUI("deJson failed...", 60);
+    return;
+  }
+
 
   netStartUI("Get city name...", 80);
 
   //获取城市名称
-  JsonObject& root = jsonBuffer.parseObject(json_weather_data);
-  JsonObject& results_0 = root["results"][0];
-  JsonObject& results_0_location = results_0["location"];
-  city = results_0_location["name"];
-  JsonArray& results_0_daily = results_0["daily"];
+  //JsonObject& root = jsonBuffer.parseObject(json_weather_data);
+
+  JsonObject results_0 = doc["results"][0];
+  JsonObject results_0_location = results_0["location"];
+  const char* results_0_location_name = results_0_location["name"];  // "上海"
+  JsonObject results_0_daily = results_0["daily"];
+
+
 
   netStartUI("Get data...", 90);
 
   for (int dayNum = 0; dayNum < 3; dayNum++) {
+
+    // const char* results_0_daily_item_date = results_0_daily_item["date"];                      // "2023-06-08", "2023-06-09", ...
+    // const char* results_0_daily_item_text_day = results_0_daily_item["text_day"];              // "阴", "晴", "多云"
+    // const char* results_0_daily_item_code_day = results_0_daily_item["code_day"];              // "9", "0", "4"
+    // const char* results_0_daily_item_text_night = results_0_daily_item["text_night"];          // "多云", "晴", "阴"
+    // const char* results_0_daily_item_code_night = results_0_daily_item["code_night"];          // "4", "1", "9"
+    // const char* results_0_daily_item_high = results_0_daily_item["high"];                      // "31", "34", "33"
+    // const char* results_0_daily_item_low = results_0_daily_item["low"];                        // "20", "22", "23"
+    // const char* results_0_daily_item_rainfall = results_0_daily_item["rainfall"];              // "0.00", "0.00", "0.00"
+    // const char* results_0_daily_item_precip = results_0_daily_item["precip"];                  // "0.00", "0.00", "0.00"
+    // const char* results_0_daily_item_wind_direction = results_0_daily_item["wind_direction"];  // "西", "东", ...
+    // const char* results_0_daily_item_wind_direction_degree = results_0_daily_item["wind_direction_degree"];
+    // const char* results_0_daily_item_wind_speed = results_0_daily_item["wind_speed"];  // "8.4", "8.4", "3.0"
+    // const char* results_0_daily_item_wind_scale = results_0_daily_item["wind_scale"];  // "2", "2", "1"
+    // const char* results_0_daily_item_humidity = results_0_daily_item["humidity"];      // "71", "63", "53"
+
+    day[dayNum].v_date = results_0_daily["date"][dayNum];
+    day[dayNum].v_text_day = results_0_daily["text_day"][dayNum];
+    day[dayNum].v_code_day = results_0_daily["code_day"][dayNum];
+    day[dayNum].v_text_night = results_0_daily["text_night"][dayNum];
+    day[dayNum].v_high = results_0_daily["high"][dayNum];
+    day[dayNum].v_low = results_0_daily["low"][dayNum];
+    day[dayNum].v_wind_direction = results_0_daily["wind_direction"][dayNum];
+    day[dayNum].v_wind_speed = results_0_daily["wind_speed"][dayNum];
+    day[dayNum].v_wind_scale = results_0_daily["wind_scale"][dayNum];
+    day[dayNum].v_rainfall = results_0_daily["rainfall"][dayNum];
+    day[dayNum].v_humidity = results_0_daily["humidity"][dayNum];
+
+
     // 返回今明后三天的天气数据
-    JsonObject& result = results_0_daily[dayNum];
-    day[dayNum].v_date = result["date"];
-    day[dayNum].v_text_day = result["text_day"];
-    day[dayNum].v_code_day = result["code_day"];
-    day[dayNum].v_text_night = result["text_night"];
-    day[dayNum].v_high = result["high"];
-    day[dayNum].v_low = result["low"];
-    day[dayNum].v_wind_direction = result["wind_direction"];
-    day[dayNum].v_wind_speed = result["wind_speed"];
-    day[dayNum].v_wind_scale = result["wind_scale"];
-    day[dayNum].v_rainfall = result["rainfall"];
-    day[dayNum].v_humidity = result["humidity"];
+    // JsonObject& result = results_0_daily[dayNum];
+    // day[dayNum].v_date = result["date"];
+    // day[dayNum].v_text_day = result["text_day"];
+    // day[dayNum].v_code_day = result["code_day"];
+    // day[dayNum].v_text_night = result["text_night"];
+    // day[dayNum].v_high = result["high"];
+    // day[dayNum].v_low = result["low"];
+    // day[dayNum].v_wind_direction = result["wind_direction"];
+    // day[dayNum].v_wind_speed = result["wind_speed"];
+    // day[dayNum].v_wind_scale = result["wind_scale"];
+    // day[dayNum].v_rainfall = result["rainfall"];
+    // day[dayNum].v_humidity = result["humidity"];
   }
 
-  if (!root.success()) {
-    Serial.println("parseObject() failed");
-    netStartUI("Get data failed...", 80);
-    return;
-  }
+  // if (!root.success()) {
+  //   return;
+  // }
 
   netStartUI("Success, pls wait..", 100);
 }
@@ -156,4 +199,3 @@ void serialPrintResult() {
     Serial.println("--------------");
   }
 }
-
