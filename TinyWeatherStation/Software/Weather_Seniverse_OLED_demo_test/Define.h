@@ -12,6 +12,9 @@ const char* host = "api.seniverse.com";   // 心知天气 API 地址
 String loaction = "shanghai";             // 位置变量
 String privateKey = "S_iTqDZOILpZdLBZS";  // 心知天气的私钥
 
+
+
+
 typedef struct weather_get {
   const char* v_date;            // 日期
   const char* v_text_day;        // 白天天气现象文字
