@@ -1,13 +1,12 @@
 #include <WiFi.h>
 #include <U8g2lib.h>
 #include <ArduinoJson.h>
-#include "Icon.h"
 #include "OLED_Display.h"
 #include "Get_Data.h"
 #include "Serial_print.h"
 #include "WiFi_Connect.h"
 
-const int pageFlipTime = 1000;      // 设置翻页的时间间隔，单位毫秒
+const int pageFlipTime = 5000;      // 设置翻页的时间间隔，单位毫秒
 unsigned long displayStartMillis;   // 记录上一次屏幕刷新的时间
 const int dataRefreshTime = 600000; // 设置数据刷新的时间间隔，单位毫秒，10 分钟
 unsigned long refreshStartMillis;   // 记录上一次数据更新的时间

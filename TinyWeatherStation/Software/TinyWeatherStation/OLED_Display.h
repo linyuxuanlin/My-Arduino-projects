@@ -1,3 +1,33 @@
+// OLED 屏幕定义
+#define OLED_SDA 1
+#define OLED_SCL 0
+#define brightness 1 // OLED 亮度，0~255
+
+// 定义 OLED 屏幕对象
+U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R2, OLED_SCL, OLED_SDA, U8X8_PIN_NONE);
+
+// 初始化 OLED 屏幕
+void OLEDInit(void) {
+  u8g2.begin();
+  u8g2.setContrast(brightness);
+  u8g2.clearBuffer();
+  u8g2.setFont(u8g2_font_resoledmedium_tr);
+}
+
+void netStartUI(char* title, int num) {
+  u8g2.setFont(u8g2_font_wqy12_t_gb2312);
+  u8g2.firstPage();
+  do {
+    u8g2.setCursor(14, 30);
+    u8g2.print(title);
+    u8g2.drawRFrame(9, 17, 110, 30, 5);
+    u8g2.drawFrame(14, 36, 100, 6);
+    u8g2.drawBox(14, 36, num, 6);
+  } while (u8g2.nextPage());
+}
+
+/*-----------以下存放图标数据---------*/
+
 const uint8_t unknown[] = { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x80, 0x7F, 0x00, 0x00, 0x00, 0x70, 0x80, 0x03, 0x00, 0x00,
                             0x0C, 0x00, 0x0C, 0x00, 0x00, 0x03, 0x00, 0x30, 0x00, 0x80, 0x01, 0x00, 0x40, 0x00, 0x40, 0x00,
                             0x00, 0x80, 0x00, 0x20, 0x00, 0x00, 0x00, 0x01, 0x10, 0x00, 0x00, 0x00, 0x02, 0x10, 0x00, 0x00,
