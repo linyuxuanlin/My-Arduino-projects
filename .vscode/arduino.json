@@ -1,6 +1,7 @@
 {
+    "sketch": "TinyWeatherStation\\Software\\Weather_Seniverse_OLED_demo_test\\Weather_Seniverse_OLED_demo_test.ino",
     "configuration": "CDCOnBoot=cdc,PartitionScheme=default,CPUFreq=160,FlashMode=qio,FlashFreq=80,FlashSize=4M,UploadSpeed=921600,DebugLevel=none,EraseFlash=none",
     "board": "esp32:esp32:dfrobot_beetle_esp32c3",
     "port": "COM3",
-    "sketch": "TinyWeatherStation\\Software\\Weather_Seniverse_OLED_demo\\Weather_Seniverse_OLED_demo.ino"
+    "output": "build"
 }
