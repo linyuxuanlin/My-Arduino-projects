@@ -1,6 +1,6 @@
 #include <WiFi.h>
 #include <U8g2lib.h>
-#include <ArduinoJson.h>
+#include <ArduinoJson.h> //注意必须使用 v6 版本的库
 #include "OLED_Display.h"
 #include "Get_Data.h"
 #include "Serial_print.h"
