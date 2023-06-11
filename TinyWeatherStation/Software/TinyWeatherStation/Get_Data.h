@@ -1,6 +1,6 @@
-const char* host = "api.seniverse.com";   // 心知天气 API 地址
+String privateKey = "S_iTqDZOILpZdLBZS";  // 心知天气的私钥，请修改为你自己申请的
 String loaction = "shanghai";             // 位置变量
-String privateKey = "S_iTqDZOILpZdLBZS";  // 心知天气的私钥
+const char* host = "api.seniverse.com";   // 心知天气 API 地址
 
 typedef struct weather_get {
   const char* v_date;            // 日期
@@ -16,9 +16,9 @@ typedef struct weather_get {
   const char* v_humidity;        // 相对湿度，0~100，单位为百分比
 } Weather_get;
 
-Weather_get day[3];  // 获取天气信息
+Weather_get day[3];
 
-const char* city;    // 存放返回值的变量
+const char* city;    // 存放城市位置的变量
 
 // 获取天气数据
 void getWeatherData() {
@@ -89,10 +89,9 @@ void getWeatherData() {
   if (error) {
     Serial.print("deserializeJson() failed: ");
     Serial.println(error.c_str());
-    netStartUI("deJson failed...", 60);
+    netStartUI("deJson failed...", 60); //如果数据解析失败，从串口看错误代码，查文档
     return;
   }
-
 
   netStartUI("Get city name...", 80);
 
@@ -104,7 +103,6 @@ void getWeatherData() {
   city = results_0_location_name;
 
   //const char* results_0_daily_0_date = results_0["daily"][0]["date"];  // "2023-06-08" work
-
 
   netStartUI("Get data...", 90);
 
