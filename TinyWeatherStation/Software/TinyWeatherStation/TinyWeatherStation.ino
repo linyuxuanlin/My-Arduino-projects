@@ -90,7 +90,7 @@ void loop()
             break;
         }
 
-        u8g2.drawXBM(10, 6, 40, 40, icon);
+        u8g2.drawXBM(10, 6, 40, 40, icon); //画天气的icon
 
         u8g2.setCursor((24 - u8g2.getUTF8Width(day[dayNum].v_text_day)) / 2 + 16, 60); // 让天气情况居中显示
         u8g2.print(day[dayNum].v_text_day);                                            // 白天天气
@@ -110,7 +110,7 @@ void loop()
         }
 
         u8g2.setCursor(60, 10);
-        u8g2.print(whichDay); // 哪一天
+        u8g2.print(whichDay); // 显示是哪一天
 
         u8g2.setCursor(60, 30);
         u8g2.print(day[dayNum].v_low); // 当天最低温度(℃)
