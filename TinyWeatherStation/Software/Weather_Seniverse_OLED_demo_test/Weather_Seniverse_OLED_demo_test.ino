@@ -1,28 +1,27 @@
 #include <WiFi.h>
 #include <U8g2lib.h>
+#include <ArduinoJson.h>
 #include "Icon.h"
-#include "Define.h"
-#include "Function.h"
+#include "OLED_Display.h"
+#include "Get_Data.h"
+#include "Serial_print.h"
+#include "WiFi_Connect.h"
+
+const int pageFlipTime = 1000;      // 设置翻页的时间间隔，单位毫秒
+unsigned long displayStartMillis;   // 记录上一次屏幕刷新的时间
+const int dataRefreshTime = 600000; // 设置数据刷新的时间间隔，单位毫秒，10 分钟
+unsigned long refreshStartMillis;   // 记录上一次数据更新的时间
 
 void setup()
 {
-
   netStartUI("Init...", 0);
 
   Serial.begin(9600);
-  Serial.println("hello");
-  u8g2.begin(); // 初始化 OLED 屏幕
-  WiFi_Connect();
+  OLEDInit();    // 初始化 OLED 屏幕
+  WiFiConnect(); //	WiFi 的初始化和连接
   getWeatherData();
 
-  // serialPrintResult();
-
-  // u8g2.enableUTF8Print();
-  // u8g2.setFont(u8g2_font_wqy12_t_gb2312);
-  u8g2.setContrast(brightness);
-  u8g2.clearBuffer();
-  u8g2.setFont(u8g2_font_resoledmedium_tr);
-  // u8g2_font_5x7_tf
+  // serialPrintResult(); // 串口打印 json 数据，for debug
 
   displayStartMillis = millis(); // 初始化刷新时间
   refreshStartMillis = millis(); // 初始化刷新时间
@@ -30,7 +29,6 @@ void setup()
 
 void loop()
 {
-
   if (millis() - refreshStartMillis > dataRefreshTime)
   {
     refreshStartMillis = millis(); // 更新刷新时间
@@ -46,7 +44,6 @@ void loop()
       u8g2.firstPage();
       do
       {
-
         const uint8_t *icon;
 
         int v_code_day_int = atoi(day[dayNum].v_code_day);
@@ -96,8 +93,8 @@ void loop()
 
         u8g2.drawXBM(10, 6, 40, 40, icon);
 
-        u8g2.setCursor((24 - u8g2.getUTF8Width(day[dayNum].v_text_day)) / 2 + 16, 60);
-        u8g2.print(day[dayNum].v_text_day); // 白天天气
+        u8g2.setCursor((24 - u8g2.getUTF8Width(day[dayNum].v_text_day)) / 2 + 16, 60); // 让天气情况居中显示
+        u8g2.print(day[dayNum].v_text_day);                                            // 白天天气
 
         String whichDay;
         switch (dayNum)
@@ -135,9 +132,6 @@ void loop()
 
         u8g2.setCursor(60, 60);
         u8g2.print(day[dayNum].v_date); // 日期
-
-        // u8g2.print("Weather: ");
-        // u8g2.setCursor(68, 20);
 
       } while (u8g2.nextPage()); // 处理完第一页的内容后进入下一页
       delay(pageFlipTime);       // 等待一段时间再开始下一次循环
