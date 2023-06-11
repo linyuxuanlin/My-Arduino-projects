@@ -69,11 +69,13 @@ void getWeatherData() {
   client.stop();
   netStartUI("Request done...", 70);
   Serial.println();
+  
+  
   Serial.println("Done, closing connection");
   Serial.println();
 
   // 寻找 JSON 天气数据起始位置
-  ///String json_weather_data;
+  String json_weather_data;
   int jsonIndex;
 
   for (int i = 0; i < weather_data.length(); i++) {
@@ -84,18 +86,22 @@ void getWeatherData() {
   }
 
   // 获取天气数据
-  ///json_weather_data = weather_data.substring(jsonIndex);
+  json_weather_data = weather_data.substring(jsonIndex);
+
+  Serial.println(json_weather_data);
 
   //利用 ArduinoJson 库解析心知返回的 json 天气数据
   //可以利用 https://arduinojson.org/v5/assistant/ Arduinojson 助手生成相关json解析代码
-  //const size_t capacity = JSON_ARRAY_SIZE(1) + JSON_ARRAY_SIZE(3) + JSON_OBJECT_SIZE(1) + JSON_OBJECT_SIZE(3) + JSON_OBJECT_SIZE(6) + 3 * JSON_OBJECT_SIZE(12) + 700;
+  const size_t capacity = JSON_ARRAY_SIZE(1) + JSON_ARRAY_SIZE(3) + JSON_OBJECT_SIZE(1) + JSON_OBJECT_SIZE(3) + JSON_OBJECT_SIZE(6) + 3 * JSON_OBJECT_SIZE(12) + 700;
   //DynamicJsonDocument jsonBuffer(1024);  //原先是 capacity
-  StaticJsonDocument<1024> doc;
+  //StaticJsonDocument<2048> doc;
+
+  DynamicJsonDocument doc(capacity);
 
   char weather_data_test[] = "{\"results\":[{\"location\":{\"id\":\"WTW3SJ5ZBJUY\",\"name\":\"Shanghai\",\"country\":\"CN\",\"path\":\"Shanghai,Shanghai,China\",\"timezone\":\"Asia/Shanghai\",\"timezone_offset\":\"+08:00\"},\"daily\":[{\"date\":\"2023-06-08\",\"text_day\":\"Overcast\",\"code_day\":\"9\",\"text_night\":\"Cloudy\",\"code_night\":\"4\",\"high\":\"31\",\"low\":\"20\",\"rainfall\":\"0.00\",\"precip\":\"0.00\",\"wind_direction\":\"W\",\"wind_direction_degree\":\"270\",\"wind_speed\":\"8.4\",\"wind_scale\":\"2\",\"humidity\":\"71\"},{\"date\":\"2023-06-09\",\"text_day\":\"Sunny\",\"code_day\":\"0\",\"text_night\":\"Clear\",\"code_night\":\"1\",\"high\":\"34\",\"low\":\"22\",\"rainfall\":\"0.00\",\"precip\":\"0.00\",\"wind_direction\":\"E\",\"wind_direction_degree\":\"90\",\"wind_speed\":\"8.4\",\"wind_scale\":\"2\",\"humidity\":\"63\"},{\"date\":\"2023-06-10\",\"text_day\":\"Cloudy\",\"code_day\":\"4\",\"text_night\":\"Overcast\",\"code_night\":\"9\",\"high\":\"33\",\"low\":\"23\",\"rainfall\":\"0.00\",\"precip\":\"0.00\",\"wind_direction\":\"S\",\"wind_direction_degree\":\"180\",\"wind_speed\":\"3.0\",\"wind_scale\":\"1\",\"humidity\":\"53\"}],\"last_update\":\"2023-06-08T08:00:00+08:00\"}]}";
 
 
-  DeserializationError error = deserializeJson(doc, weather_data_test);
+  DeserializationError error = deserializeJson(doc, json_weather_data);
 
   if (error) {
     Serial.print("deserializeJson() failed: ");

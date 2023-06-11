@@ -10,6 +10,7 @@ void setup()
   netStartUI("Init...", 0);
 
   Serial.begin(9600);
+  Serial.println("hello");
   u8g2.begin(); // 初始化 OLED 屏幕
   WiFi_Connect();
   getWeatherData();
@@ -18,7 +19,7 @@ void setup()
 
   // u8g2.enableUTF8Print();
   // u8g2.setFont(u8g2_font_wqy12_t_gb2312);
-
+  u8g2.setContrast(brightness);
   u8g2.clearBuffer();
   u8g2.setFont(u8g2_font_resoledmedium_tr);
   // u8g2_font_5x7_tf
@@ -36,8 +37,8 @@ void loop()
     getWeatherData();
   }
 
-  if (millis() - displayStartMillis > pageFlipTime)
-  {                                // 如果翻页时间间隔到了
+  if (millis() - displayStartMillis > pageFlipTime) // 如果翻页时间间隔到了
+  {
     displayStartMillis = millis(); // 更新刷新时间
 
     for (int dayNum = 0; dayNum < 3; dayNum++)
@@ -52,45 +53,45 @@ void loop()
 
         switch (v_code_day_int)
         {
-        case 0 && 1 && 2 && 3:
-          icon = sunny;
-          break;
-        case 4:
-          icon = cloudy;
-          break;
-        case 5 && 6 && 7 && 8:
-          icon = partlyCloudy;
-          break;
-        case 9:
-          icon = overcast;
-          break;
-        case 11:
-          icon = thunderShower;
-          break;
-        case 13:
-          icon = lightRain;
-          break;
-        case 14:
-          icon = moderateRain;
-          break;
-        case 15:
-          icon = heavyRain;
-          break;
-        case 20:
-          icon = sleet;
-          break;
-        case 22:
-          icon = lightSnow;
-          break;
-        case 23:
-          icon = moderateSnow;
-          break;
-        case 24:
-          icon = heavySnow;
-          break;
-        default:
-          icon = unknown;
-          break;
+          case 0 && 1 && 2 && 3:
+            icon = sunny;
+            break;
+          case 4:
+            icon = cloudy;
+            break;
+          case 5 && 6 && 7 && 8:
+            icon = partlyCloudy;
+            break;
+          case 9:
+            icon = overcast;
+            break;
+          case 11:
+            icon = thunderShower;
+            break;
+          case 13:
+            icon = lightRain;
+            break;
+          case 14:
+            icon = moderateRain;
+            break;
+          case 15:
+            icon = heavyRain;
+            break;
+          case 20:
+            icon = sleet;
+            break;
+          case 22:
+            icon = lightSnow;
+            break;
+          case 23:
+            icon = moderateSnow;
+            break;
+          case 24:
+            icon = heavySnow;
+            break;
+          default:
+            icon = unknown;
+            break;
         }
 
         u8g2.drawXBM(10, 6, 40, 40, icon);
@@ -101,15 +102,15 @@ void loop()
         String whichDay;
         switch (dayNum)
         {
-        case 0:
-          whichDay = "Today";
-          break;
-        case 1:
-          whichDay = "Tomorrow";
-          break;
-        case 2:
-          whichDay = "After Tom";
-          break;
+          case 0:
+            whichDay = "Today";
+            break;
+          case 1:
+            whichDay = "Tomorrow";
+            break;
+          case 2:
+            whichDay = "After Tom";
+            break;
         }
 
         u8g2.setCursor(60, 10);
@@ -143,13 +144,13 @@ void loop()
     }
 
     /*
-    u8g2.firstPage();  //第二页
-    do {
+      u8g2.firstPage();  //第二页
+      do {
       u8g2.setFont(u8g2_font_profont11_mf);
       u8g2.setCursor(20, 20);
       u8g2.print("page 2");     //设置第二页的显示内容
-    } while (u8g2.nextPage());  //处理完第二页的内容后进入下一页
-    delay(pageFlipTime);          //等待一段时间再开始下一次循环
-*/
+      } while (u8g2.nextPage());  //处理完第二页的内容后进入下一页
+      delay(pageFlipTime);          //等待一段时间再开始下一次循环
+    */
   }
 }

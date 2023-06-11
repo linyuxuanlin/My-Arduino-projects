@@ -1,6 +1,7 @@
 // OLED 屏幕定义
 #define OLED_SDA 1
 #define OLED_SCL 0
+#define brightness 1 // OLED 亮度，0-255
 
 // 定义 OLED 屏幕对象
 U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R2, OLED_SCL, OLED_SDA, U8X8_PIN_NONE);
@@ -32,7 +33,7 @@ typedef struct weather_get {
 const char* city;    // 存放返回值的变量
 Weather_get day[3];  // 获取天气信息
 
-const int pageFlipTime = 5000;       // 设置翻页的时间间隔，单位毫秒
+const int pageFlipTime = 1000;       // 设置翻页的时间间隔，单位毫秒
 unsigned long displayStartMillis;    // 记录上一次屏幕刷新的时间
 const int dataRefreshTime = 600000;  // 设置数据刷新的时间间隔，单位毫秒，10 分钟
 unsigned long refreshStartMillis;    // 记录上一次数据更新的时间
