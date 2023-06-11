@@ -14,6 +14,7 @@ void OLEDInit(void) {
   u8g2.setFont(u8g2_font_resoledmedium_tr);
 }
 
+// 加载的 UI
 void netStartUI(char* title, int num) {
   u8g2.setFont(u8g2_font_wqy12_t_gb2312);
   u8g2.firstPage();

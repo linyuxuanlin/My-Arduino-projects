@@ -45,7 +45,7 @@ void loop()
       {
         const uint8_t *icon;
 
-        int v_code_day_int = atoi(day[dayNum].v_code_day);
+        int v_code_day_int = atoi(day[dayNum].v_code_day); // 数据类型转换
 
         switch (v_code_day_int)
         {

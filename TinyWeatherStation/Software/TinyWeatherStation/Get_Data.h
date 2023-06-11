@@ -1,5 +1,6 @@
 String privateKey = "S_iTqDZOILpZdLBZS";  // 心知天气的私钥，请修改为你自己申请的
-String loaction = "shanghai";             // 位置变量
+String location = "shanghai";             // 位置变量
+String language = "en";             // api 返回的语言
 const char* host = "api.seniverse.com";   // 心知天气 API 地址
 
 typedef struct weather_get {
@@ -36,7 +37,14 @@ void getWeatherData() {
   netStartUI("API success...", 40);
 
   // 给请求创建一个 URL
-  String url = "/v3/weather/daily.json?key=" + privateKey + "&location=" + loaction + "&language=en&unit=c&start=0&days=3";
+  String url = "https://api.seniverse.com/v3/weather/daily.json?";
+  url += "key=" + privateKey; //添加API私钥
+  url += "&location=" + location; //添加请求地点
+  url += "&language=" + language; //添加语言
+  url += "&unit=c"; //设置温度单位为摄氏度
+  url += "&start=0"; //设置从第一天开始获取
+  url += "&days=3"; //设置获取数据的天数
+  
   Serial.print("Requesting URL: ");
   Serial.println(url);
 
