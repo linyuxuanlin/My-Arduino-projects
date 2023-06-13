@@ -45,13 +45,13 @@ void loop()
     {
       drawIcon(10, 6, 40, 40, var_now_code);
       u8g2.setCursor((24 - u8g2.getUTF8Width(var_now_text)) / 2 + 16, 60); // 居中显示
-      u8g2.print(var_now_text);                                // 当前天气文字
+      u8g2.print(var_now_text);                                            // 当前天气文字
       u8g2.setCursor(60, 50);
       u8g2.print(var_now_temperature); // 当前气温
       u8g2.print(" C");
     } while (u8g2.nextPage()); // 处理完第二页的内容后进入下一页
 
-    delay(pageFlipTime); // 等待一段时间再开始下一次循环
+    delay(pageFlipTime * 2); // 等待一段时间再开始下一次循环
 
     // 三天天气预报
     for (int dayNum = 0; dayNum < 3; dayNum++)
@@ -69,7 +69,7 @@ void loop()
         switch (dayNum)
         {
         case 0:
-          whichDay = "Today";
+          whichDay = "Today Fore";
           break;
         case 1:
           whichDay = "Tomorrow";
