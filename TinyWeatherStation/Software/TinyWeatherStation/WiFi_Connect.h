@@ -1,5 +1,5 @@
-const char* ssid = "WiFi_SSID";     // Wi-Fi SSID
-const char* password = "********";  // Wi-Fi 密码
+const char *ssid = "WiFi_SSID";    // Wi-Fi SSID
+const char *password = "********"; // Wi-Fi 密码
 
 // WiFi 的初始化和连接
 void WiFiConnect()
@@ -7,7 +7,7 @@ void WiFiConnect()
   delay(10);
   Serial.println();
   netStartUI("WiFi Connecting...", 10);
-  Serial.print("Connecting to WIFI:");
+  Serial.print("Connecting to WIFI: ");
   Serial.println(ssid);
   WiFi.begin(ssid, password);
   while (WiFi.status() != WL_CONNECTED)
