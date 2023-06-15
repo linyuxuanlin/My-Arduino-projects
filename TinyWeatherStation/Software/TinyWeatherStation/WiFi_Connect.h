@@ -5,7 +5,6 @@ const char *password = "********"; // Wi-Fi 密码
 void WiFiConnect()
 {
   delay(10);
-  Serial.println();
   netStartUI("WiFi Connecting...", 10);
   Serial.print("Connecting to WIFI: ");
   Serial.println(ssid);
@@ -20,6 +19,6 @@ void WiFiConnect()
 
   Serial.println(""); // 换行
   Serial.println("WiFi connected Successful!");
-  Serial.println("IP address: ");
+  Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
 }
