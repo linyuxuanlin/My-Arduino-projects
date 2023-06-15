@@ -8,7 +8,7 @@
 #include "Serial_print.h"
 #include "WiFi_Connect.h"
 
-const int pageFlipTime = 500;      // 设置翻页的时间间隔，单位毫秒
+const int pageFlipTime = 500;       // 设置翻页的时间间隔，单位毫秒
 unsigned long displayStartMillis;   // 记录上一次屏幕刷新的时间
 const int dataRefreshTime = 600000; // 设置数据刷新的时间间隔，单位毫秒，10 分钟
 unsigned long refreshStartMillis;   // 记录上一次数据更新的时间
@@ -51,27 +51,40 @@ void loop()
     u8g2.firstPage();
     do
     {
-      drawIcon(5, 6, 40, 40, var_now_code);
 
-      configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
-      u8g2.setCursor(45, 30);
-      u8g2.setFont(u8g2_font_maniac_tn); // u8g2_font_bubble_tr,
-      u8g2.print(&timeinfo, "%R");       // 格式化输出时间
-        printLocalTime();
-      u8g2.setFont(u8g2_font_6x12_mf);   // u8g2_font_resoledmedium_tr
+      u8g2.setFont(u8g2_font_maniac_tn); // u8g2_font_bubble_tr,u8g2_font_maniac_tn
+      u8g2.setCursor(25, 28);
+      getLocalTime(&timeinfo);
+      u8g2.print(&timeinfo, "%R"); // 格式化输出时间
 
-      u8g2.setCursor((24 - u8g2.getUTF8Width(var_now_text)) / 2 + 16, 60); // 居中显示
-      u8g2.print(var_now_text);                                            // 当前天气文字
-      u8g2.setCursor(60, 50);
+      for (int i = 35; i < 37; i++)
+        u8g2.drawLine(20, i, 105, i); // 画一条有粗细的分割线
+
+      u8g2.setFont(u8g2_font_6x12_mf);
+      u8g2.setCursor(20, 50);
       u8g2.print(var_now_temperature); // 当前气温
-      u8g2.print(" C");
+      u8g2.print("C ");
+      u8g2.print(day[0].var_low); // 当天最低温度(℃)
+      u8g2.print("-");
+      u8g2.print(day[0].var_high); // 当天最高温度(℃)
+      u8g2.print("C ");
+      u8g2.print(day[0].var_humidity); // 相对湿度(%)
+      u8g2.print("%");
+
+      u8g2.setCursor(20, 63);
+      u8g2.print(day[0].var_date); // 今天日期
+      u8g2.print(" ");
+      u8g2.print(day[0].var_rainfall); // 今天降水量
+
+      u8g2.setCursor((24 - u8g2.getUTF8Width(var_now_text)) / 2 + 45, 39); // 居中显示
+      u8g2.print(day[0].var_text_day);                                     // 今天预报的天气文字
+
     } while (u8g2.nextPage()); // 处理完第二页的内容后进入下一页
 
     delay(pageFlipTime * 4); // 等待一段时间再开始下一次循环
 
-
     // // 三天天气预报
-    // for (int dayNum = 0; dayNum < 3; dayNum++)
+    // for (int dayNum = 1; dayNum <=2; dayNum++)
     // {
     //   u8g2.firstPage();
     //   do

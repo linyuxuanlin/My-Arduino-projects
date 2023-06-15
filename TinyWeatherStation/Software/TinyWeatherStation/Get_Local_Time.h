@@ -1,4 +1,4 @@
-const char *ntpServer = "pool.ntp.org";
+const char *ntpServer = "cn.pool.ntp.org";
 const long gmtOffset_sec = 8 * 3600;
 const int daylightOffset_sec = 0;
 struct tm timeinfo;
