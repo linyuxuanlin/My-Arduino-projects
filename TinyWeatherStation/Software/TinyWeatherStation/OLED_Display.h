@@ -3,6 +3,11 @@
 #define OLED_SCL 0
 #define brightness 1 // OLED 亮度，0~255
 
+// 定时器的时间间隔
+#define UPDATE_INTERVAL_MS 50
+// 当前文本位置
+uint8_t textPosition = 0;
+
 // 定义 OLED 屏幕对象
 U8G2_SSD1306_128X64_NONAME_F_SW_I2C u8g2(U8G2_R2, OLED_SCL, OLED_SDA, U8X8_PIN_NONE);
 
@@ -13,6 +18,7 @@ void OLEDInit(void)
   u8g2.setContrast(brightness);
   u8g2.clearBuffer();
   u8g2.setFont(u8g2_font_resoledmedium_tr);
+  u8g2.setFontMode(0);		// enable transparent mode, which is faster
 }
 
 // 加载的 UI
@@ -78,3 +84,15 @@ void drawIcon(u8g2_uint_t x, u8g2_uint_t y, u8g2_uint_t w, u8g2_uint_t h, const 
   }
   u8g2.drawXBM(x, y, w, h, icon); // 画天气的 icon
 }
+
+// void updateScrollText(){
+
+//   int width = u8g2.getUTF8Width(day[dayNum].var_text_day);	
+//   //u8g2.setFontMode(0);		// enable transparent mode, which is faster
+
+
+
+
+//   u8g2.print(day[dayNum].var_text_day);  
+
+// }

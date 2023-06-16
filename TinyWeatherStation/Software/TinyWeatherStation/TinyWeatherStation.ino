@@ -8,7 +8,7 @@
 #include "Serial_print.h"
 #include "WiFi_Connect.h"
 
-const int pageFlipTime = 800;       // 设置翻页的时间间隔，单位毫秒
+const int pageFlipTime = 1000;       // 设置翻页的时间间隔，单位毫秒
 unsigned long displayStartMillis;   // 记录上一次屏幕刷新的时间
 const int dataRefreshTime = 600000; // 设置数据刷新的时间间隔，单位毫秒，10 分钟
 unsigned long refreshStartMillis;   // 记录上一次数据更新的时间
@@ -51,24 +51,25 @@ void loop()
     u8g2.firstPage();
     do
     {
-
-      u8g2.setFont(u8g2_font_maniac_tn); // u8g2_font_bubble_tr,u8g2_font_maniac_tn
-      u8g2.setCursor(24, 27);
+      u8g2.setFont(u8g2_font_maniac_tn); // u8g2_font_bubble_tr,u8g2_font_maniac_tn   u8g2_font_maniac_tn u8g2_font_bubble_tr
       getLocalTime(&timeinfo);
-      u8g2.print(&timeinfo, "%R"); // 格式化输出时间
-
-      // // 计算文本宽度
-      // char time_str[6];
-      // snprintf(time_str, sizeof(time_str), "%R", &timeinfo);
-      // int time_width = u8g2_GetStrWidth(&u8g2, time_str);
-      // Serial.println("文本宽度：");
-      // Serial.println(time_width);
+      char buffer[10];
+      strftime(buffer, 10, "%R", &timeinfo);                    // 格式转换
+      u8g2.setCursor((128 - u8g2.getStrWidth(buffer)) / 2, 26); // 计算文本宽度，居中显示
+      u8g2.print(&timeinfo, "%R");                              // 格式化输出时间
 
       for (int i = 34; i < 36; i++)
         u8g2.drawLine(20, i, 105, i); // 画一条有粗细的分割线
 
+      u8g2.setFont(u8g2_font_6x10_mf);
+      u8g2.setCursor((128 - (u8g2.getUTF8Width(day[0].var_text_day) + 2 * u8g2.getUTF8Width(" "))) / 2, 38); // 居中显示
+      u8g2.print(" ");
+      u8g2.print(day[0].var_text_day); // 今天预报的天气文字
+      u8g2.print(" ");
+
       u8g2.setFont(u8g2_font_6x12_mf);
-      u8g2.setCursor(21, 51);
+      u8g2.setCursor((128 - (u8g2.getUTF8Width(var_now_temperature) + u8g2.getUTF8Width("C ") + u8g2.getUTF8Width(day[0].var_low) + u8g2.getUTF8Width("-") + u8g2.getUTF8Width(day[0].var_high) + u8g2.getUTF8Width("C ") + u8g2.getUTF8Width(day[0].var_humidity) + u8g2.getUTF8Width("%"))) / 2, 51); // 居中显示
+      // u8g2.setCursor(21, 51);
       u8g2.print(var_now_temperature); // 当前气温
       u8g2.print("C ");
       u8g2.print(day[0].var_low); // 当天最低温度(℃)
@@ -78,13 +79,12 @@ void loop()
       u8g2.print(day[0].var_humidity); // 相对湿度(%)
       u8g2.print("%");
 
-      u8g2.setCursor(18, 63);
-      u8g2.print(day[0].var_date); // 今天日期
+      u8g2.setFont(u8g2_font_6x12_mf);
+      // u8g2.setCursor(18, 63);
+      u8g2.setCursor((128 - (u8g2.getUTF8Width(day[0].var_date) + u8g2.getUTF8Width(" ") + u8g2.getUTF8Width(day[0].var_rainfall))) / 2, 63); // 居中显示
+      u8g2.print(day[0].var_date);                                                                                                            // 今天日期
       u8g2.print(" ");
       u8g2.print(day[0].var_rainfall); // 今天降水量
-
-      u8g2.setCursor((24 - u8g2.getUTF8Width(var_now_text)) / 2 + 45, 38); // 居中显示
-      u8g2.print(day[0].var_text_day);                                     // 今天预报的天气文字
 
     } while (u8g2.nextPage()); // 处理完第二页的内容后进入下一页
 
@@ -99,46 +99,47 @@ void loop()
 
         drawIcon(10, 6, 40, 40, day[dayNum].var_code_day);
 
-        u8g2.setCursor((24 - u8g2.getUTF8Width(day[dayNum].var_text_day)) / 2 + 16, 60); // 让天气情况居中显示
-        u8g2.print(day[dayNum].var_text_day);                                            // 白天天气文字
+        u8g2.setFont(u8g2_font_6x12_mf);
 
-        String whichDay;
+        // updateScrollText();
+
+        const char *whichDay;
         switch (dayNum)
         {
         case 0:
-          whichDay = "Today Fore";
+          whichDay = "TodayFore";
           break;
         case 1:
           whichDay = "Tomorrow";
           break;
         case 2:
-          whichDay = "After Tom";
+          whichDay = "AfterTom";
           break;
         }
 
-        u8g2.setCursor(60, 10);
-        u8g2.print(whichDay); // 显示是哪一天
+        u8g2.setCursor((128 - u8g2.getUTF8Width(whichDay)) / 2 - 35, 60); // 居中显示
+        u8g2.print(whichDay);                                             // 显示是哪一天
 
-        u8g2.setCursor(60, 30);
+        u8g2.setCursor(60, 10);
+        u8g2.print(day[dayNum].var_text_day); // 白天天气文字
+
+        u8g2.setCursor(60, 23);
         u8g2.print(day[dayNum].var_low); // 当天最低温度(℃)
         u8g2.print("-");
         u8g2.print(day[dayNum].var_high); // 当天最高温度(℃)
-        u8g2.print(" C");
+        u8g2.print("C ");
+        u8g2.print(day[dayNum].var_humidity); // 相对湿度(%)
+        u8g2.print("%");
 
-        u8g2.setCursor(60, 40);
-        u8g2.print("Wind: ");
+        u8g2.setCursor(60, 36);
+        // u8g2.print("Wind: ");
         u8g2.print(day[dayNum].var_wind_direction); // 风向
         u8g2.print(" L");
         u8g2.print(day[dayNum].var_wind_scale); // 风力等级
+        u8g2.print(" ");
+        u8g2.print(day[dayNum].var_rainfall); // 降水量，单位 mm
 
-        u8g2.setCursor(60, 50);
-        u8g2.print("Humi: ");
-        u8g2.print(day[dayNum].var_humidity); // 相对湿度(%)
-        u8g2.print(" %");
-
-        u8g2.setCursor(60, 60);
-        u8g2.print(day[dayNum].var_date); // 日期
-      } while (u8g2.nextPage());          // 处理完第一页的内容后进入下一页
+      } while (u8g2.nextPage()); // 处理完第一页的内容后进入下一页
 
       delay(pageFlipTime); // 等待一段时间再开始下一次循环
     }
