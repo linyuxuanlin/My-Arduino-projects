@@ -32,7 +32,7 @@ const char *var_now_temperature; // 当前气温
 // 获取天气数据
 void getWeatherData()
 {
-  Serial.print("正在尝试访问心知天气 API: ");
+  Serial.print("Visiting API: ");
   Serial.println(host);
   netStartUI("API accessing...", 30);
   WiFiClient client;
@@ -62,10 +62,11 @@ void getWeatherData()
   live_weather_url += "&language=" + language; // 添加语言
   live_weather_url += "&unit=c";               // 设置温度单位为摄氏度
 
-  Serial.print("forecast_weather_url: ");
-  Serial.println(forecast_weather_url);
-  Serial.print("live_weather_url: ");
-  Serial.println(live_weather_url);
+  // Debug 用途
+  // Serial.print("forecast_weather_url: ");
+  // Serial.println(forecast_weather_url);
+  // Serial.print("live_weather_url: ");
+  // Serial.println(live_weather_url);
 
   // 向服务器发送请求
   netStartUI("Sending request...", 50);
@@ -130,10 +131,11 @@ void getWeatherData()
   json_forecast_weather_data = forecast_weather_data.substring(jsonIndex_forecast);
   json_live_weather_data = live_weather_data.substring(jsonIndex_live);
 
-  Serial.print("json_forecast_weather_data: ");
-  Serial.println(json_forecast_weather_data);
-  Serial.print("json_live_weather_data: ");
-  Serial.println(json_live_weather_data);
+  // Debug 用途
+  // Serial.print("json_forecast_weather_data: ");
+  // Serial.println(json_forecast_weather_data);
+  // Serial.print("json_live_weather_data: ");
+  // Serial.println(json_live_weather_data);
 
   // 利用 ArduinoJson 库解析心知返回的 json 天气数据
   // 可以利用 https://arduinojson.org/v6/assistant/ 生成相关json 解析代码

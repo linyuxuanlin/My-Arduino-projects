@@ -8,7 +8,7 @@
 #include "Serial_print.h"
 #include "WiFi_Connect.h"
 
-const int pageFlipTime = 1000;       // 设置翻页的时间间隔，单位毫秒
+const int pageFlipTime = 1000;      // 设置翻页的时间间隔，单位毫秒
 unsigned long displayStartMillis;   // 记录上一次屏幕刷新的时间
 const int dataRefreshTime = 600000; // 设置数据刷新的时间间隔，单位毫秒，10 分钟
 unsigned long refreshStartMillis;   // 记录上一次数据更新的时间
@@ -29,7 +29,7 @@ void setup()
 
   getWeatherData();
 
-  // serialPrintResult(); // 串口打印 json 数据，for debug
+  // serialPrintResult(); // 串口打印 json 数据，Debug 用途
 
   displayStartMillis = millis(); // 初始化刷新时间
   refreshStartMillis = millis(); // 初始化刷新时间
@@ -47,7 +47,7 @@ void loop()
   {
     displayStartMillis = millis(); // 更新刷新时间
 
-    // 当前时间与天气实况
+    // 显示当前时间与天气实况
     u8g2.firstPage();
     do
     {
@@ -101,7 +101,6 @@ void loop()
 
         u8g2.setFont(u8g2_font_6x12_mf);
 
-        // updateScrollText();
 
         const char *whichDay;
         switch (dayNum)
@@ -116,14 +115,17 @@ void loop()
           whichDay = "AfterTom";
           break;
         }
-
         u8g2.setCursor((128 - u8g2.getUTF8Width(whichDay)) / 2 - 35, 60); // 居中显示
         u8g2.print(whichDay);                                             // 显示是哪一天
 
-        u8g2.setCursor(60, 10);
+        u8g2.setFont(u8g2_font_7x13B_mf );// u8g2_font_t0_12b_mf u8g2_font_luBS08_te
+        u8g2.setCursor(60, 15);
         u8g2.print(day[dayNum].var_text_day); // 白天天气文字
 
-        u8g2.setCursor(60, 23);
+
+        u8g2.setFont(u8g2_font_6x12_mf);
+
+        u8g2.setCursor(62, 34);
         u8g2.print(day[dayNum].var_low); // 当天最低温度(℃)
         u8g2.print("-");
         u8g2.print(day[dayNum].var_high); // 当天最高温度(℃)
@@ -131,13 +133,17 @@ void loop()
         u8g2.print(day[dayNum].var_humidity); // 相对湿度(%)
         u8g2.print("%");
 
-        u8g2.setCursor(60, 36);
-        // u8g2.print("Wind: ");
-        u8g2.print(day[dayNum].var_wind_direction); // 风向
-        u8g2.print(" L");
+        u8g2.setCursor(62, 47);
+        u8g2.print("Wind: L");
         u8g2.print(day[dayNum].var_wind_scale); // 风力等级
         u8g2.print(" ");
+        u8g2.print(day[dayNum].var_wind_direction); // 风向
+
+        u8g2.setCursor(62, 60);
+        u8g2.print("Rain:  ");
         u8g2.print(day[dayNum].var_rainfall); // 降水量，单位 mm
+        //u8g2.print("mm");
+
 
       } while (u8g2.nextPage()); // 处理完第一页的内容后进入下一页
 

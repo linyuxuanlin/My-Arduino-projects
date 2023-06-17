@@ -10,5 +10,6 @@ void printLocalTime()
     Serial.println("Failed to obtain time");
     return;
   }
-  Serial.println(&timeinfo, "%F %T %A"); // 格式化输出
+  Serial.print("Time: ");
+  Serial.println(&timeinfo, "%F %T %A"); // 格式化输出时间
 }
