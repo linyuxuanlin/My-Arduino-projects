@@ -140,7 +140,7 @@ void loop()
         u8g2.print(day[dayNum].var_wind_direction); // 风向
 
         u8g2.setCursor(62, 60);
-        u8g2.print("Rain:  ");
+        u8g2.print("Rain: ");
         u8g2.print(day[dayNum].var_rainfall); // 降水量，单位 mm
         //u8g2.print("mm");
 
